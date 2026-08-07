@@ -1,204 +1,286 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Guia de Pesquisa de TVs: Modelos, Preços e Frete para Brasília</title>
-    <style>
-        :root {
-            --primary-color: #1a365d;
-            --secondary-color: #2b6cb0;
-            --accent-color: #3182ce;
-            --bg-color: #f7fafc;
-            --card-bg: #ffffff;
-            --text-color: #2d3748;
-            --border-color: #e2e8f0;
-        }
-        body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background-color: var(--bg-color);
-            color: var(--text-color);
-            line-height: 1.6;
-            margin: 0;
-            padding: 20px;
-        }
-        .container {
-            max-width: 1000px;
-            margin: 0 auto;
-            background: var(--card-bg);
-            padding: 40px;
-            border-radius: 12px;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
-        }
-        h1 {
-            color: var(--primary-color);
-            text-align: center;
-            margin-bottom: 10px;
-            font-size: 2.2em;
-        }
-        .subtitle {
-            text-align: center;
-            color: #718096;
-            margin-bottom: 30px;
-            font-size: 1.1em;
-        }
-        .intro-box {
-            background-color: #ebf8ff;
-            border-left: 4px solid var(--secondary-color);
-            padding: 15px 20px;
-            margin-bottom: 30px;
-            border-radius: 4px;
-        }
-        .intro-box h3 {
-            margin-top: 0;
-            color: var(--primary-color);
-        }
-        h2.size-title {
-            color: var(--primary-color);
-            border-bottom: 2px solid var(--secondary-color);
-            padding-bottom: 8px;
-            margin-top: 40px;
-            font-size: 1.5em;
-        }
-        h3.brand-title {
-            color: var(--secondary-color);
-            margin-top: 25px;
-            font-size: 1.2em;
-        }
-        .model-card {
-            background: #ffffff;
-            border: 1px solid var(--border-color);
-            border-radius: 8px;
-            padding: 20px;
-            margin-bottom: 15px;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.02);
-            transition: transform 0.2s;
-        }
-        .model-card:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 4px 8px rgba(0,0,0,0.05);
-        }
-        .model-name {
-            font-weight: bold;
-            font-size: 1.1em;
-            color: var(--primary-color);
-            margin-bottom: 8px;
-        }
-        .model-details {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 10px;
-            font-size: 0.95em;
-        }
-        .detail-item span {
-            font-weight: 600;
-            color: #4a5568;
-        }
-        footer {
-            text-align: center;
-            margin-top: 40px;
-            color: #a0aec0;
-            font-size: 0.9em;
-            border-top: 1px solid var(--border-color);
-            padding-top: 20px;
-        }
-    </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>Desafio Lógico Forte Cultural | Você é um Mestre da Lógica?</title>
+
+<!-- ===================== SEO ===================== -->
+<meta name="description" content="Teste sua lógica com o Desafio Forte Cultural: comece pelas perguntas mais fáceis e avance por níveis cada vez mais difíceis. Jogue grátis e receba seu certificado.">
+<meta name="keywords" content="quiz de lógica, desafio lógico, charadas, teste de inteligência, forte cultural, quiz cultura geral">
+<meta name="author" content="Forte Cultural">
+<meta name="robots" content="index, follow">
+<link rel="canonical" href="https://edisilva64.github.io/quiz-forte-cultural/">
+
+<!-- Open Graph -->
+<meta property="og:type" content="website">
+<meta property="og:title" content="🧠 Desafio Lógico Forte Cultural">
+<meta property="og:description" content="Comece fácil e avance por níveis cada vez mais difíceis. Até onde você consegue chegar?">
+<meta property="og:image" content="img/logo.png">
+<meta property="og:url" content="https://edisilva64.github.io/quiz-forte-cultural/">
+<meta property="og:locale" content="pt_BR">
+
+<!-- Twitter Cards -->
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Desafio Lógico Forte Cultural">
+<meta name="twitter:description" content="Dificuldade progressiva: cada bloco é mais difícil que o anterior. Até onde você chega?">
+<meta name="twitter:image" content="img/logo.png">
+
+<!-- PWA -->
+<link rel="manifest" href="manifest.json">
+<meta name="theme-color" content="#16213E">
+<link rel="icon" href="favicon.ico">
+<link rel="apple-touch-icon" href="img/logo.png">
+
+<!-- Preconnect / Preload -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="preload" as="image" href="img/camiseta-sarcasmo.jpg">
+
+<!-- Fonts -->
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800;900&family=Bangers&display=swap" rel="stylesheet">
+
+<!-- Font Awesome -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+<!-- CSS modular -->
+<link rel="stylesheet" href="css/style.css">
+<link rel="stylesheet" href="css/animations.css">
+<link rel="stylesheet" href="css/responsive.css">
+<link rel="stylesheet" href="css/dark.css">
+
+<!-- Schema.org -->
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Quiz",
+  "name": "Desafio Lógico Forte Cultural",
+  "description": "Quiz interativo de lógica com dificuldade progressiva, em blocos de 10 perguntas.",
+  "educationalLevel": "Todos os níveis",
+  "publisher": {
+    "@type": "Organization",
+    "name": "Forte Cultural"
+  }
+}
+</script>
 </head>
 <body>
-    <div class="container">
-        <h1>Pesquisa de Mercado de Televisores</h1>
-        <div class="subtitle">Análise por Tamanho, Marca, Preços e Condições de Frete para Brasília (DF)</div>
 
-        <div class="intro-box">
-            <h3>Nota sobre a Transição de Tamanhos no Mercado</h3>
-            <p>O mercado padrão mudou drasticamente: o antigo formato de <strong>47 polegadas</strong> foi totalmente descontinuado. O tamanho <strong>48 polegadas</strong> hoje se consolidou como o padrão de entrada para TVs OLED de alto desempenho (foco em entusiastas, gamers e monitores premium). Para o mercado de massa, a indústria adotou o salto direto para <strong>50 polegadas</strong>, otimizando custos e oferecendo ampla variedade.</p>
+<!-- Skip link (acessibilidade) -->
+<a class="skip-link" href="#main">Pular para o conteúdo</a>
+
+<!-- ===================== HEADER ===================== -->
+<header class="site-header" role="banner">
+  <div class="container header-inner">
+    <a class="brand" href="https://umapenca.com/fortecultural/" target="_blank" rel="noopener" aria-label="Forte Cultural — ir para a loja">
+      <img src="img/logo.png" alt="Forte Cultural" width="36" height="36" loading="eager">
+      <span>Forte Cultural</span>
+    </a>
+    <button id="darkToggle" class="icon-btn" aria-label="Alternar modo escuro" title="Modo escuro">
+      <i class="fa-solid fa-circle-half-stroke" aria-hidden="true"></i>
+    </button>
+  </div>
+</header>
+
+<main id="main">
+
+  <!-- ===================== HERO ===================== -->
+  <section class="hero" id="hero" aria-label="Introdução do desafio">
+    <div class="hero-glow" aria-hidden="true"></div>
+    <div class="hero-halftone" aria-hidden="true"></div>
+
+    <svg class="hero-bolt hero-bolt-1" viewBox="0 0 100 140" aria-hidden="true">
+      <polygon points="60,0 15,80 45,80 25,140 90,55 55,55" fill="#FFD400" stroke="#1A1A1A" stroke-width="5" stroke-linejoin="round"/>
+    </svg>
+    <svg class="hero-bolt hero-bolt-2" viewBox="0 0 100 140" aria-hidden="true">
+      <polygon points="60,0 15,80 45,80 25,140 90,55 55,55" fill="#FF3D3D" stroke="#1A1A1A" stroke-width="5" stroke-linejoin="round"/>
+    </svg>
+    <svg class="hero-star" viewBox="0 0 200 200" aria-hidden="true">
+      <polygon points="100,0 122,70 195,70 136,113 158,183 100,140 42,183 64,113 5,70 78,70"
+        fill="#FFD400" stroke="#1A1A1A" stroke-width="4" stroke-linejoin="round"/>
+    </svg>
+
+    <div class="container hero-inner">
+      <p class="eyebrow"><i class="fa-solid fa-brain" aria-hidden="true"></i> Desafio de raciocínio</p>
+      <h1 class="hero-title">🧠 DESAFIO LÓGICO</h1>
+      <p class="hero-subtitle">Até onde você consegue chegar?</p>
+      <p class="hero-text">Mais de <strong>95% das pessoas</strong> erram pelo menos 3 perguntas.<br>
+      Será que você consegue ser um <strong>Mestre da Lógica</strong>?</p>
+      <p class="hero-note"><i class="fa-solid fa-shuffle" aria-hidden="true"></i> Escolha entre o Quiz Geral (1000 perguntas) ou o Quiz Turismo (500 perguntas sobre monumentos) — em 3 níveis de dificuldade, você decide onde começar!</p>
+      <button id="startBtn" class="btn btn-primary btn-xl ripple">
+        <i class="fa-solid fa-play" aria-hidden="true"></i> COMEÇAR AGORA
+      </button>
+
+      <div class="rules-grid" role="list">
+        <div class="rule-card" role="listitem"><i class="fa-solid fa-list-ol"></i><span>Blocos de 10 perguntas</span></div>
+        <div class="rule-card" role="listitem"><i class="fa-solid fa-check-circle"></i><span>Apenas uma resposta</span></div>
+        <div class="rule-card" role="listitem"><i class="fa-solid fa-bolt"></i><span>Dificuldade progressiva</span></div>
+        <div class="rule-card" role="listitem"><i class="fa-solid fa-share-nodes"></i><span>Compartilhe com amigos</span></div>
+      </div>
+
+      <!-- Faixa lateral fixa da página de abertura (mesmo padrão visual da faixa do quiz) -->
+      <aside class="promo-rail hero-rail" id="heroRail" aria-label="Oferta relacionada à camiseta">
+        <div class="promo-rail-inner">
+          <div class="promo-rail-mockup">
+            <img src="img/camiseta-sarcasmo.jpg" alt="Camiseta com estampa 'O sarcasmo é tão legítimo que está na tabela periódica'" loading="eager" width="200" height="356">
+          </div>
+          <span class="promo-rail-emoji">😏</span>
+          <div class="promo-rail-title">HUMOR CIENTÍFICO</div>
+          <p class="promo-rail-text">Sarcasmo com fundamento — e com estampa exclusiva.</p>
+          <a class="btn btn-primary btn-sm ripple" href="https://umapenca.com/fortecultural/" target="_blank" rel="noopener">VER CAMISETA</a>
         </div>
-
-        <!-- 48 POLEGADAS -->
-        <h2 class="size-title">48 Polegadas (Segmento OLED / Alto Desempenho)</h2>
-        
-        <h3 class="brand-title">LG / Samsung (Modelos Compactos OLED)</h3>
-        <div class="model-card">
-            <div class="model-name">Smart TV OLED Compacta 48" (Linhas OLED C / Samsung OLED)</div>
-            <div class="model-details">
-                <div class="detail-item"><span>Tecnologia:</span> OLED (Pretos absolutos)</div>
-                <div class="detail-item"><span>Faixa de Preço:</span> R$ 4.200 a R$ 5.500</div>
-                <div class="detail-item"><span>Locais de Compra:</span> Lojas oficiais, Fast Shop, Magazine Luiza, Kabum</div>
-                <div class="detail-item"><span>Frete para Brasília:</span> Requer transportadora especializada; frete de R$ 50 a R$ 120 ou grátis em promoções expressas.</div>
-            </div>
-        </div>
-
-        <!-- 50 POLEGADAS -->
-        <h2 class="size-title">50 Polegadas (Segmento Intermediário / Mainstream)</h2>
-
-        <h3 class="brand-title">Samsung</h3>
-        <div class="model-card">
-            <div class="model-name">Samsung Vision AI QLED Ultra 4K (Q7F / QEF1)</div>
-            <div class="model-details">
-                <div class="detail-item"><span>Tecnologia:</span> QLED (Pontos Quânticos + IA)</div>
-                <div class="detail-item"><span>Faixa de Preço:</span> R$ 2.400 a R$ 3.200</div>
-                <div class="detail-item"><span>Locais de Compra:</span> Loja Samsung, Magazine Luiza, Americanas, Fast Shop</div>
-                <div class="detail-item"><span>Frete para Brasília:</span> Disponível via centros regionais; frete grátis ou até R$ 80.</div>
-            </div>
-        </div>
-        <div class="model-card">
-            <div class="model-name">Samsung Crystal UHD 4K (DU7700 / U8600)</div>
-            <div class="model-details">
-                <div class="detail-item"><span>Tecnologia:</span> LED 4K Tradicional (Custo-Benefício)</div>
-                <div class="detail-item"><span>Faixa de Preço:</span> R$ 2.100 a R$ 2.500</div>
-                <div class="detail-item"><span>Locais de Compra:</span> Amazon, Mercado Livre, Casas Bahia</div>
-                <div class="detail-item"><span>Frete para Brasília:</span> Alta incidência de frete grátis (ex: Mercado Livre Full / Amazon Prime).</div>
-            </div>
-        </div>
-
-        <h3 class="brand-title">LG</h3>
-        <div class="model-card">
-            <div class="model-name">Smart TV LG QNED 4K (QNED73 / QNED82)</div>
-            <div class="model-details">
-                <div class="detail-item"><span>Tecnologia:</span> QNED (Quantum Dot + NanoCell)</div>
-                <div class="detail-item"><span>Faixa de Preço:</span> R$ 2.200 a R$ 2.600</div>
-                <div class="detail-item"><span>Locais de Compra:</span> LG Store Oficial, Web Continental, Grandes Varejistas</div>
-                <div class="detail-item"><span>Frete para Brasília:</span> Calculado no checkout oficial; prazos médios de 3 a 7 dias úteis para o DF.</div>
-            </div>
-        </div>
-
-        <!-- 55 POLEGADAS -->
-        <h2 class="size-title">55 Polegadas (Segmento Amplo / Salas de Estar)</h2>
-
-        <h3 class="brand-title">LG</h3>
-        <div class="model-card">
-            <div class="model-name">Smart TV LG QNED AI 4K (QNED80 / QNED82)</div>
-            <div class="model-details">
-                <div class="detail-item"><span>Tecnologia:</span> QNED com Dimming Local</div>
-                <div class="detail-item"><span>Faixa de Preço:</span> R$ 2.700 a R$ 3.000</div>
-                <div class="detail-item"><span>Locais de Compra:</span> LG Store Oficial, Magazine Luiza, Casas Bahia</div>
-                <div class="detail-item"><span>Frete para Brasília:</span> Caixa volumosa; verifique opções de retirada em loja física no DF para zerar o frete.</div>
-            </div>
-        </div>
-        <div class="model-card">
-            <div class="model-name">Smart TV LG OLED AI B5 4K (OLED55B5PSA)</div>
-            <div class="model-details">
-                <div class="detail-item"><span>Tecnologia:</span> OLED de Última Geração (120Hz)</div>
-                <div class="detail-item"><span>Faixa de Preço:</span> R$ 4.800 a R$ 5.200</div>
-                <div class="detail-item"><span>Locais de Compra:</span> LG Store Oficial ([R$ 4.939,00]), Parcerias autorizadas</div>
-                <div class="detail-item"><span>Frete para Brasília:</span> Envio especializado recomendado para assegurar integridade do painel ultrafino.</div>
-            </div>
-        </div>
-
-        <h3 class="brand-title">Samsung & Outras</h3>
-        <div class="model-card">
-            <div class="model-name">Samsung QLED / Crystal UHD 55"</div>
-            <div class="model-details">
-                <div class="detail-item"><span>Tecnologia:</span> QLED / Crystal 4K</div>
-                <div class="detail-item"><span>Faixa de Preço:</span> R$ 2.800 a R$ 3.600</div>
-                <div class="detail-item"><span>Locais de Compra:</span> E-commerce nacional e lojas físicas</div>
-                <div class="detail-item"><span>Frete para Brasília:</span> Variável conforme o marketplace parceiro; atenção a taxas adicionais em vendedores terceiros.</div>
-            </div>
-        </div>
-
-        <footer>
-            Pesquisa de Mercado atualizada • Preços e condições sujeitos a alteração nas lojas varejistas.
-        </footer>
+      </aside>
     </div>
+  </section>
+
+  <!-- ===================== ESCOLHA DE MÓDULO ===================== -->
+  <section class="module-select-section" id="moduleSelectSection" hidden aria-label="Escolha do módulo do quiz">
+    <div class="container module-select-container">
+      <h2 class="level-select-title">Qual quiz você quer jogar?</h2>
+      <p class="level-select-subtitle">Escolha entre o desafio geral de lógica ou o módulo especial sobre monumentos e maravilhas do mundo.</p>
+      <div class="module-cards" id="moduleCards">
+        <!-- Preenchido via JS -->
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================== ESCOLHA DE NÍVEL ===================== -->
+  <section class="level-select-section" id="levelSelectSection" hidden aria-label="Escolha do nível de dificuldade">
+    <div class="container level-select-container">
+      <h2 class="level-select-title">Escolha seu nível de dificuldade</h2>
+      <p class="level-select-subtitle">Você pode começar por onde quiser. Depois de cada bloco de 10 perguntas, é possível avançar para um nível mais difícil.</p>
+      <div class="level-cards" id="levelCards">
+        <!-- Preenchido via JS -->
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================== QUIZ ===================== -->
+  <section class="quiz-section" id="quizSection" aria-live="polite" hidden>
+    <div class="container quiz-container">
+
+      <div class="quiz-topbar">
+        <span class="tier-badge" id="tierBadge">Nível Fácil</span>
+        <div class="progress-info">
+          <span id="progressLabel">Questão 1 de 10</span>
+          <span id="timerDisplay" class="timer"><i class="fa-regular fa-clock"></i> 00:00</span>
+        </div>
+        <div class="progress-track" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0" id="progressBar">
+          <div class="progress-fill" id="progressFill"></div>
+        </div>
+      </div>
+
+      <!-- Faixa lateral fixa: imagem do produto + CTA, sempre visível durante o quiz.
+           A imagem troca a cada 5 perguntas (ver js/ui.js -> getPromoKeyForIndex) -->
+      <aside class="promo-rail" id="promoRail" aria-label="Oferta relacionada à camiseta">
+        <div class="promo-rail-inner">
+          <div class="promo-rail-mockup">
+            <img id="promoRailImg" src="img/camiseta-cafe.png" alt="Camiseta em destaque" loading="lazy" width="200" height="256">
+          </div>
+          <span class="promo-rail-emoji" id="promoRailEmoji">☕</span>
+          <div class="promo-rail-title" id="promoRailTitle">ESTILO CIÊNCIA</div>
+          <p class="promo-rail-text" id="promoRailText">Inteligência também se veste.</p>
+          <a class="btn btn-primary btn-sm ripple" id="promoRailCta" href="https://umapenca.com/fortecultural/" target="_blank" rel="noopener">VER CAMISETA</a>
+        </div>
+      </aside>
+
+      <div class="question-stage" id="questionStage">
+        <!-- Perguntas injetadas via JS -->
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ===================== BLOCO CONCLUÍDO (continuar ou parar) ===================== -->
+  <section class="block-complete-section" id="blockCompleteSection" hidden>
+    <div class="container block-complete-container" id="blockCompleteContainer">
+      <!-- Preenchido via JS -->
+    </div>
+  </section>
+
+  <!-- ===================== RESULTADO ===================== -->
+  <section class="result-section" id="resultSection" hidden>
+    <div class="container result-container">
+      <div class="result-card" id="resultCard">
+        <!-- Preenchido via JS -->
+      </div>
+
+      <div class="review-wrap">
+        <h2 class="section-title">Confira sua correção</h2>
+        <div id="reviewList" class="review-list"></div>
+      </div>
+
+      <div class="certificate-wrap card-surface">
+        <h2 class="section-title"><i class="fa-solid fa-award"></i> Gere seu certificado</h2>
+        <p>Digite seu nome para gerar um certificado personalizado do Desafio Lógico Forte Cultural.</p>
+        <div class="cert-form">
+          <input type="text" id="certName" placeholder="Digite seu nome" aria-label="Digite seu nome para o certificado" maxlength="40">
+          <button id="certBtn" class="btn btn-secondary ripple"><i class="fa-solid fa-file-arrow-down"></i> GERAR CERTIFICADO</button>
+        </div>
+        <canvas id="certCanvas" width="1200" height="850" hidden></canvas>
+      </div>
+
+      <div class="share-wrap card-surface">
+        <h2 class="section-title"><i class="fa-solid fa-share-nodes"></i> Compartilhe seu resultado</h2>
+        <div class="share-buttons">
+          <button class="share-btn wa ripple" data-share="whatsapp" aria-label="Compartilhar no WhatsApp"><i class="fa-brands fa-whatsapp"></i></button>
+          <button class="share-btn fb ripple" data-share="facebook" aria-label="Compartilhar no Facebook"><i class="fa-brands fa-facebook-f"></i></button>
+          <button class="share-btn tg ripple" data-share="telegram" aria-label="Compartilhar no Telegram"><i class="fa-brands fa-telegram"></i></button>
+          <button class="share-btn x ripple" data-share="x" aria-label="Compartilhar no X"><i class="fa-brands fa-x-twitter"></i></button>
+          <button class="share-btn copy ripple" data-share="copy" aria-label="Copiar link"><i class="fa-solid fa-link"></i></button>
+          <button class="share-btn native ripple" data-share="native" aria-label="Compartilhar" hidden><i class="fa-solid fa-share-nodes"></i></button>
+        </div>
+        <p id="shareFeedback" class="share-feedback" role="status" aria-live="polite"></p>
+      </div>
+
+      <button id="restartBtn" class="btn btn-ghost ripple"><i class="fa-solid fa-rotate-right"></i> Refazer o desafio</button>
+    </div>
+  </section>
+
+  <!-- ===================== CTA FINAL / LOJA ===================== -->
+  <section class="cta-final" id="ctaFinal">
+    <div class="container cta-inner">
+      <div class="stars" aria-hidden="true">⭐⭐⭐⭐⭐</div>
+      <h2>Mais de 300 estampas exclusivas para quem pensa fora da caixa</h2>
+      <ul class="cta-list">
+        <li><i class="fa-solid fa-check"></i> Algodão Premium</li>
+        <li><i class="fa-solid fa-check"></i> Diversos tamanhos</li>
+        <li><i class="fa-solid fa-check"></i> Envio para todo o Brasil</li>
+      </ul>
+      <a href="https://umapenca.com/fortecultural/" target="_blank" rel="noopener" class="btn btn-cta btn-xl ripple">
+        🛍 VISITAR A LOJA
+      </a>
+    </div>
+  </section>
+
+</main>
+
+<footer class="site-footer">
+  <div class="container">
+    <p>&copy; <span id="year"></span> Forte Cultural — Desafio Lógico. Todos os direitos reservados.</p>
+  </div>
+</footer>
+
+<!-- Confetti canvas -->
+<canvas id="confettiCanvas" class="confetti-canvas" aria-hidden="true"></canvas>
+
+<!-- jsPDF para certificado em PDF -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js" defer></script>
+
+<!-- Supabase (banco de dados gratuito: perguntas, resultados, estatísticas e contador de acessos) -->
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2" defer></script>
+
+<!-- JS modular -->
+<script src="js/config.js" defer></script>
+<script src="js/db.js" defer></script>
+<script src="js/tourism-questions.js" defer></script>
+<script src="js/quiz.js" defer></script>
+<script src="js/progress.js" defer></script>
+<script src="js/timer.js" defer></script>
+<script src="js/confetti.js" defer></script>
+<script src="js/certificate.js" defer></script>
+<script src="js/share.js" defer></script>
+<script src="js/ui.js" defer></script>
+<script src="js/app.js" defer></script>
 </body>
 </html>
