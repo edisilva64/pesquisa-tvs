@@ -529,6 +529,10 @@ input:focus-visible,
   margin-bottom: 12px;
   transition: background .3s ease;
 }
+.tier-badge-block {
+  font-weight: 600;
+  opacity: 0.85;
+}
 .progress-info {
   display: flex;
   justify-content: space-between;
