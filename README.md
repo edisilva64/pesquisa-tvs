@@ -14,7 +14,7 @@ Desde a última atualização, o site oferece **dois módulos separados**, escol
 - **Quiz Geral** — banco de 1000 perguntas de lógica, matemática, cultura geral e charadas (o quiz original).
 - **Quiz Turismo** — banco de 500 perguntas dedicado a monumentos e maravilhas do mundo: as Sete Maravilhas do Mundo Antigo, as Sete Novas Maravilhas do Mundo Moderno, e monumentos brasileiros, japoneses, chineses, indianos, russos, gregos, africanos, europeus, americanos e da Ásia/Oceania — incluindo perguntas sobre a história e a construção de cada um.
 
-Cada módulo tem seu **próprio banco de dados** (tabelas separadas no Supabase: `questions` para o geral, `tourism_questions` para o turismo) e seus **próprios 3 níveis de dificuldade** (ver seção abaixo) — a classificação de dificuldade é feita separadamente dentro de cada módulo.
+Cada módulo tem seu **próprio banco de dados** (tabelas separadas no Supabase: `questions` para o geral, `tourism_questions` para o turismo) e sua **própria progressão de dificuldade** (ver seção abaixo) — a classificação é feita separadamente dentro de cada módulo.
 
 ### Sobre a precisão das perguntas do módulo de turismo
 
@@ -25,32 +25,32 @@ Diferente das perguntas de matemática/lógica (que têm resposta garantida por 
 - **Se o Supabase estiver configurado:** gerencie pela tabela `tourism_questions` no Table Editor, igual ao módulo geral.
 - **Banco de reserva local:** as 500 perguntas ficam em `js/tourism-questions.js`, em `window.TOURISM_QUESTIONS`. O formato de cada pergunta é idêntico ao do módulo geral.
 
-## 🎮 Sistema de dificuldade progressiva (Fácil / Médio / Difícil)
+## 🎮 Sistema de dificuldade progressiva (contínua, sem escolha de nível)
 
-O quiz não usa mais um total fixo de 15 perguntas aleatórias. Agora funciona assim:
+O quiz não usa mais um total fixo de 15 perguntas aleatórias, nem faz o jogador escolher um nível para começar. Agora funciona assim:
 
-1. As 1000 perguntas do banco são automaticamente **classificadas por dificuldade** (mais fácil → mais difícil), usando um classificador heurístico em `js/quiz.js` (`difficultyScore`). Ele considera: o tipo de pergunta (cultura geral e charadas tendem a ser mais fáceis; problemas de lógica com várias etapas tendem a ser mais difíceis), o tamanho dos números envolvidos, e o tamanho do enunciado.
-2. As perguntas classificadas são divididas em **3 níveis nomeados**: 🟢 **Fácil**, 🟠 **Médio** e 🔴 **Difícil** (cerca de 333 perguntas em cada) — `buildDifficultyTiers`.
-3. Ao clicar em "Começar Agora", o jogador **escolhe em qual nível quer começar**, numa tela com 3 cartões coloridos (verde/laranja/vermelho).
-4. Ele então responde um **bloco de 10** perguntas, sorteadas aleatoriamente dentro do nível escolhido (isso mantém a variedade entre partidas — nem todo mundo vê as mesmas 10 perguntas). O painel de perguntas, os círculos de alternativas e a barra de progresso mudam de cor de acordo com o nível atual.
-5. Ao final do bloco, aparece uma tela avisando que o próximo bloco será do nível seguinte (mais difícil), com duas opções: **continuar** ou **parar e ver o resultado**. Quem começa no Médio, ao continuar, avança direto para o Difícil (pula o Fácil, já que seria um retrocesso). Quem começa no Difícil não tem para onde avançar — só ver o resultado ao final do bloco.
+1. As perguntas de cada módulo (1000 no Geral, 500 no Turismo) são automaticamente **classificadas por dificuldade** (mais fácil → mais difícil), usando um classificador heurístico em `js/quiz.js` (`difficultyScore`). Ele considera: o tipo de pergunta, a magnitude dos números envolvidos, o tamanho do enunciado, e se a pergunta exige raciocínio sobre causas/datas específicas.
+2. As perguntas classificadas são divididas em **blocos sequenciais de 10**, cobrindo o banco inteiro do módulo — `buildDifficultyBlocks` (100 blocos no Geral, 50 no Turismo).
+3. Depois de escolher o módulo, o jogador **já começa automaticamente no bloco mais fácil** — não há mais escolha de nível.
+4. A cada bloco de 10 perguntas respondido, aparece uma tela avisando que o próximo bloco será um pouco mais difícil, com duas opções: **continuar** ou **parar e ver o resultado**. O jogador pode ir continuando bloco a bloco até a última pergunta do banco inteiro, se quiser.
+5. O painel de perguntas, os círculos de alternativas, a barra de progresso e o badge do topo mudam de cor (🟢 verde → 🟠 laranja → 🔴 vermelho) automaticamente, de acordo com a posição do bloco atual dentro do banco: primeiro terço = fácil, terço do meio = médio, último terço = difícil (`getZoneForBlock`). Essa cor é só visual/informativa — não é mais uma escolha do jogador.
 
-### Por que sortear dentro de níveis, e não usar blocos 100% fixos?
+### Por que sortear dentro de blocos, e não usar exatamente as mesmas perguntas sempre?
 
-Uma abordagem mais simples seria ter blocos fixos (sempre as mesmas 10 perguntas em cada nível, para todo mundo). A desvantagem é que **todo mundo veria exatamente as mesmas perguntas sempre**. Sorteando 10 por vez dentro de cada nível (~333 perguntas de pool), a dificuldade sobe de forma consistente, mas cada partida continua sendo diferente.
+Cada bloco de 10 é sorteado a partir de um pequeno grupo de perguntas com dificuldade parecida (não é sempre a mesma dezena de perguntas em cada posição), o que mantém variedade entre partidas.
 
 ### Ajustando o sistema
 
-- **Nomes, cores e descrições dos níveis:** edite o array `TIER_META` em `js/quiz.js`.
-- **Quantidade de níveis:** altere `NUM_TIERS` em `js/quiz.js` (hoje: 3). Se mudar esse número, ajuste também `TIER_META` para ter a mesma quantidade de itens.
+- **Cores e nomes das zonas de dificuldade:** edite o array `ZONE_META` em `js/quiz.js`.
 - **Tamanho de cada bloco:** altere `BLOCK_SIZE` em `js/quiz.js` (hoje: 10).
 - **Critério de dificuldade:** ajuste os pesos em `CATEGORY_BASE_SCORE` e a função `difficultyScore` em `js/quiz.js`.
-- **Cores do painel de perguntas:** as cores (verde/laranja/vermelho) vêm de `TIER_META[i].color` e `colorLight`, aplicadas via variáveis CSS `--level-color` / `--level-color-light` (ver `css/style.css`, seletores `.question-card`, `.option-letter`, `.progress-fill`, `.tier-badge`).
-- **Níveis de resultado (Iniciante, Aprendiz, etc.):** são calculados por **porcentagem de acertos**, não por número fixo — veja o array `LEVELS` em `js/quiz.js` (não confundir com os 3 níveis de dificuldade — são dois conceitos diferentes: nível de dificuldade das perguntas vs. nível de desempenho do jogador no resultado final).
+- **Pontos de corte das zonas de cor** (hoje: terços do banco): ajuste a função `getZoneForBlock` em `js/quiz.js`.
+- **Cores do painel de perguntas:** vêm de `ZONE_META[i].color` e `colorLight`, aplicadas via variáveis CSS `--level-color` / `--level-color-light` (ver `css/style.css`, seletores `.question-card`, `.option-letter`, `.progress-fill`, `.tier-badge`).
+- **Níveis de resultado (Iniciante, Aprendiz, etc.):** são calculados por **porcentagem de acertos**, não por número fixo — veja o array `LEVELS` em `js/quiz.js` (não confundir com as zonas de dificuldade das perguntas — são dois conceitos diferentes).
 
 ### Estatísticas da comunidade (Supabase)
 
-Como cada jogador agora pode responder uma quantidade diferente de perguntas, a comparação com outros jogadores é feita por **precisão (%)**, não por número bruto de acertos. Isso exigiu uma atualização na função `get_stats()` do banco — veja `supabase/patch_2026-07-27_progressive_difficulty_stats.sql`.
+Como cada jogador pode responder uma quantidade diferente de perguntas (dependendo de até onde decide ir), a comparação com outros jogadores é feita por **precisão (%)**, não por número bruto de acertos. Isso exigiu uma atualização na função `get_stats()` do banco — veja `supabase/patch_2026-07-27_progressive_difficulty_stats.sql`.
 
 ## 📁 Estrutura do projeto
 
