@@ -7123,68 +7123,82 @@
     return base + magnitudeBonus + lengthBonus + reasoningBonus + yearBonus;
   }
 
-  const NUM_TIERS = 3;    // 3 níveis nomeados: Fácil, Médio, Difícil
-  const BLOCK_SIZE = 10;  // perguntas exibidas por bloco/rodada
+  const BLOCK_SIZE = 10;  // perguntas por bloco/rodada
 
   /**
-   * Metadados de cada nível: nome exibido, cores (harmonizadas com a
-   * paleta do site) e ícone. O índice aqui corresponde ao índice do tier
-   * gerado por buildDifficultyTiers (0 = mais fácil, 2 = mais difícil).
+   * Metadados visuais das 3 "zonas" de dificuldade (fácil/médio/difícil),
+   * usados apenas para colorir o painel de perguntas e o badge — não são
+   * mais uma escolha do jogador, e sim calculados automaticamente de
+   * acordo com o progresso dele dentro do banco de perguntas (ver
+   * getZoneForBlock).
    */
-  const TIER_META = [
+  const ZONE_META = [
     {
       key: "facil",
-      name: "Nível Fácil",
+      name: "Fácil",
       color: "#00A651",       // verde da marca
       colorLight: "#E7F8EF",
-      icon: "fa-seedling",
-      description: "Perguntas mais simples, ótimo para aquecer o raciocínio."
+      icon: "fa-seedling"
     },
     {
       key: "medio",
-      name: "Nível Médio",
+      name: "Médio",
       color: "#FF8A00",       // laranja da marca
       colorLight: "#FFF1E0",
-      icon: "fa-bolt",
-      description: "Um desafio equilibrado — nem tão fácil, nem tão difícil."
+      icon: "fa-bolt"
     },
     {
       key: "dificil",
-      name: "Nível Difícil",
+      name: "Difícil",
       color: "#FF3C3C",       // vermelho (mesmo tom já usado em erros/alertas do site)
       colorLight: "#FFEAEA",
-      icon: "fa-fire",
-      description: "Só para quem não tem medo de um desafio de verdade."
+      icon: "fa-fire"
     }
   ];
 
   /**
-   * Ordena todas as perguntas do pool da mais fácil para a mais difícil e
-   * as divide em NUM_TIERS grupos (tiers) de tamanho igual. O tier 0 é o
-   * mais fácil; o último tier é o mais difícil.
+   * Ordena TODAS as perguntas do pool da mais fácil para a mais difícil e
+   * as divide em blocos sequenciais de tamanho fixo (BLOCK_SIZE), cobrindo
+   * o banco inteiro. O bloco 0 é sempre o mais fácil; o último bloco é
+   * sempre o mais difícil. O jogador sempre começa no bloco 0 e pode ir
+   * avançando bloco a bloco até o final do banco, se quiser.
    */
-  function buildDifficultyTiers(pool) {
+  function buildDifficultyBlocks(pool) {
     const scored = (pool || []).map(function (q) {
       return { q: q, score: difficultyScore(q) };
     });
     scored.sort(function (a, b) { return a.score - b.score; });
     const sorted = scored.map(function (s) { return s.q; });
 
-    const tierSize = Math.ceil(sorted.length / NUM_TIERS);
-    const tiers = [];
-    for (let i = 0; i < NUM_TIERS; i++) {
-      tiers.push(sorted.slice(i * tierSize, (i + 1) * tierSize));
+    const blocks = [];
+    for (let i = 0; i < sorted.length; i += BLOCK_SIZE) {
+      blocks.push(sorted.slice(i, i + BLOCK_SIZE));
     }
-    return tiers.filter(function (t) { return t.length > 0; });
+    return blocks;
   }
 
   /**
-   * Sorteia `count` perguntas aleatórias dentro de um tier específico,
-   * com as alternativas de cada uma também embaralhadas.
+   * Retorna os metadados visuais (cor/nome/ícone) da zona de dificuldade
+   * correspondente à posição atual do jogador no banco de perguntas.
+   * Os blocos são divididos em 3 terços: primeiro terço = fácil, terço
+   * do meio = médio, último terço = difícil.
    */
-  function pickTierQuestions(tiers, tierIndex, count) {
-    const pool = (tiers && tiers[tierIndex]) || [];
-    return pickRandom(pool, count);
+  function getZoneForBlock(blockIndex, totalBlocks) {
+    if (totalBlocks <= 1) return ZONE_META[0];
+    const ratio = blockIndex / totalBlocks;
+    if (ratio < 1 / 3) return ZONE_META[0];
+    if (ratio < 2 / 3) return ZONE_META[1];
+    return ZONE_META[2];
+  }
+
+  /**
+   * Retorna as `count` perguntas de um bloco específico (já na ordem
+   * sorteada aleatoriamente, com as alternativas de cada uma também
+   * embaralhadas).
+   */
+  function pickBlockQuestions(blocks, blockIndex, count) {
+    const pool = (blocks && blocks[blockIndex]) || [];
+    return pickRandom(pool, count || pool.length);
   }
 
   /** Embaralha uma cópia do array (Fisher-Yates) sem alterar o original */
@@ -7284,15 +7298,15 @@
     FALLBACK_QUESTIONS: FALLBACK_QUESTIONS,
     QUESTIONS_PER_GAME: BLOCK_SIZE, // mantido por compatibilidade (agora representa o tamanho do bloco)
     BLOCK_SIZE: BLOCK_SIZE,
-    NUM_TIERS: NUM_TIERS,
-    TIER_META: TIER_META,
+    ZONE_META: ZONE_META,
     LEVELS: LEVELS,
     QUIZ_MODULES: QUIZ_MODULES,
     getModule: getModule,
     getLevel: getLevel,
     pickRandom: pickRandom,
-    buildDifficultyTiers: buildDifficultyTiers,
-    pickTierQuestions: pickTierQuestions,
+    buildDifficultyBlocks: buildDifficultyBlocks,
+    pickBlockQuestions: pickBlockQuestions,
+    getZoneForBlock: getZoneForBlock,
     difficultyScore: difficultyScore,
     detectCategory: detectCategory
   };

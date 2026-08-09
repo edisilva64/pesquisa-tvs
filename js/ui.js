@@ -260,30 +260,29 @@
   function renderBlockComplete(el, opts) {
     const blockScore = opts.blockScore;
     const blockTotal = opts.blockTotal;
-    const tierNumber = opts.tierNumber;   // 1-based
-    const numTiers = opts.numTiers;
+    const blockNumber = opts.blockNumber;     // 1-based
+    const totalBlocks = opts.totalBlocks;
     const overallScore = opts.overallScore;
     const overallTotal = opts.overallTotal;
-    const tierName = opts.tierName;
-    const nextTierName = opts.nextTierName;
-    const isLastTier = tierNumber >= numTiers;
+    const nextZoneName = opts.nextZoneName;
+    const isLastBlock = blockNumber >= totalBlocks;
 
     const accuracy = blockTotal > 0 ? Math.round((blockScore / blockTotal) * 100) : 0;
 
     el.innerHTML =
       '<div class="block-complete-card">' +
         '<div class="block-complete-emoji">🎉</div>' +
-        '<h2 class="block-complete-title">' + tierName + ' concluído!</h2>' +
+        '<h2 class="block-complete-title">Bloco ' + blockNumber + ' de ' + totalBlocks + ' concluído!</h2>' +
         '<p class="block-complete-score">Você acertou ' + blockScore + ' de ' + blockTotal + ' nesta parte (' + accuracy + '%)</p>' +
         '<p class="block-complete-overall">No total, até agora: ' + overallScore + ' de ' + overallTotal + ' perguntas certas.</p>' +
-        (isLastTier
-          ? '<p class="block-complete-warning">🏁 Você chegou ao nível mais difícil do desafio! Não há mais blocos — hora de ver seu resultado final.</p>'
-          : '<p class="block-complete-warning">⚠️ As próximas 10 perguntas serão do <strong>' + nextTierName + '</strong> — mais difíceis que as anteriores.</p>'
+        (isLastBlock
+          ? '<p class="block-complete-warning">🏁 Você chegou ao fim do banco de perguntas — o mais difícil que existe por aqui! Hora de ver seu resultado final.</p>'
+          : '<p class="block-complete-warning">⚠️ As próximas 10 perguntas serão um pouco mais difíceis que as anteriores' + (nextZoneName ? ' (nível ' + nextZoneName + ')' : '') + '.</p>'
         ) +
         '<div class="block-complete-actions">' +
-          (isLastTier
+          (isLastBlock
             ? '<button id="blockFinishBtn" class="btn btn-primary btn-xl ripple">VER RESULTADO FINAL</button>'
-            : '<button id="blockContinueBtn" class="btn btn-primary btn-xl ripple"><i class="fa-solid fa-arrow-right"></i> CONTINUAR PARA O ' + nextTierName.toUpperCase() + '</button>' +
+            : '<button id="blockContinueBtn" class="btn btn-primary btn-xl ripple"><i class="fa-solid fa-arrow-right"></i> CONTINUAR</button>' +
               '<button id="blockStopBtn" class="btn btn-ghost ripple">PARAR E VER RESULTADO</button>'
           ) +
         '</div>' +
@@ -308,33 +307,6 @@
         '<div class="review-explain">' + q.explanation + '</div>';
 
       el.appendChild(item);
-    });
-  }
-
-  /* ---------- SELEÇÃO DE NÍVEL ---------- */
-  /**
-   * Renderiza os cartões de escolha de nível (Fácil/Médio/Difícil).
-   * @param {HTMLElement} el - container onde os cartões serão inseridos
-   * @param {Array} tierMeta - QuizData.TIER_META (nome, cor, ícone, descrição)
-   * @param {Function} onSelect - callback(tierIndex) ao clicar em um cartão
-   */
-  function renderLevelCards(el, tierMeta, onSelect) {
-    el.innerHTML = "";
-    tierMeta.forEach(function (meta, index) {
-      const card = document.createElement("button");
-      card.type = "button";
-      card.className = "level-card ripple";
-      card.style.setProperty("--level-card-color", meta.color);
-      card.setAttribute("aria-label", "Começar no " + meta.name);
-
-      card.innerHTML =
-        '<div class="level-card-icon"><i class="fa-solid ' + meta.icon + '"></i></div>' +
-        '<div class="level-card-name">' + meta.name + '</div>' +
-        '<p class="level-card-desc">' + meta.description + '</p>' +
-        '<span class="level-card-btn">COMEÇAR AQUI</span>';
-
-      card.addEventListener("click", function () { onSelect(index); });
-      el.appendChild(card);
     });
   }
 
@@ -372,7 +344,6 @@
     renderResultCard: renderResultCard,
     renderCommunityStats: renderCommunityStats,
     renderBlockComplete: renderBlockComplete,
-    renderLevelCards: renderLevelCards,
     renderModuleCards: renderModuleCards,
     renderReview: renderReview
   };
