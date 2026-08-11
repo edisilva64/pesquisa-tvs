@@ -100,7 +100,7 @@
       pool = module.getFallbackPool(); // banco indisponível/não configurado: usa o pool local do módulo
     }
 
-    state.blocks = QuizData.buildDifficultyBlocks(pool);
+    state.blocks = QuizData.buildDifficultyBlocks(pool, moduleKey);
     state.blockIndex = 0;
     state.allQuestions = [];
     state.allAnswers = [];

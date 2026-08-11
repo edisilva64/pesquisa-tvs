@@ -7059,11 +7059,14 @@
 
   // Pontuação-base por categoria, da mais fácil para a mais difícil
   const CATEGORY_BASE_SCORE = {
-    cultura_geral: 8,
+    localizacao_simples: 10,
+    identificacao_simples: 16,
+    cultura_geral: 20,
     charada: 18,
     sequencia_letras: 26,
     conversao_unidades: 32,
     sequencia_aritmetica: 34,
+    numero_especifico: 36,
     sequencia_geometrica: 40,
     sequencia_fibonacci: 42,
     multiplicacao_divisao: 40,
@@ -7072,15 +7075,31 @@
     perimetro_area: 46,
     regra_de_tres: 48,
     porcentagem_numero: 50,
+    causa_motivo: 50,
     desconto_percentual: 52,
     dia_semana: 56,
     logica_geral: 66
   };
 
   /** Detecta a categoria de uma pergunta a partir do padrão do texto/explicação */
-  function detectCategory(q) {
+  function detectCategory(q, moduleKey) {
     const text = q.question;
     const exp = q.explanation || "";
+
+    // O módulo de turismo é majoritariamente conhecimento factual
+    // (localização, história, construção). Muitas perguntas usam uma
+    // oração explicativa antes da pergunta em si — ex: "A Ponte JK,
+    // conhecida por seu design moderno, está localizada em qual
+    // cidade?" — que NÃO começa com "Qual/Quem/Em que", mas ainda é
+    // uma pergunta simples de fato. Por isso, para este módulo,
+    // tratamos como cultura_geral (fácil) por padrão, reservando a
+    // categoria mais difícil apenas para perguntas de causa/efeito.
+    if (moduleKey === "turismo") {
+      if (/por que|o que causou|qual foi o motivo|o que motivou|por qual motivo/i.test(text)) {
+        return "logica_geral";
+      }
+      return "cultura_geral";
+    }
 
     if (/^Charada:/i.test(text)) return "charada";
     if (/sequência de letras/i.test(text)) return "sequencia_letras";
@@ -7096,7 +7115,10 @@
     if (/soma dos dois anteriores/i.test(text)) return "sequencia_fibonacci";
     if (/multiplicado por/i.test(exp)) return "sequencia_geometrica";
     if (/Complete a sequência/i.test(text)) return "sequencia_aritmetica";
-    if (/^(Qual|Quem|Em que|Quantos?|Quantas?)\b/i.test(text) && !/\d/.test(text)) return "cultura_geral";
+    // Reconhece perguntas factuais mesmo quando a palavra interrogativa não
+    // está no início da frase (ex: "O Templo X, famoso por Y, fica em qual
+    // cidade?"), contanto que a frase termine em uma pergunta desse tipo.
+    if (/\b(qual|quais|quem|quantos?|quantas?)\b[^?]*\?\s*$/i.test(text)) return "cultura_geral";
     if (/^(Qual|Quem|Em que|Quantos?|Quantas?)\b/i.test(text)) return "cultura_geral";
     return "logica_geral"; // catch-all: problemas de lógica, silogismos, combinatória etc.
   }
@@ -7109,18 +7131,23 @@
   }
 
   /** Calcula a pontuação de dificuldade (aproximada) de uma pergunta */
-  function difficultyScore(q) {
-    const category = detectCategory(q);
+  function difficultyScore(q, moduleKey) {
+    const category = detectCategory(q, moduleKey);
     const base = CATEGORY_BASE_SCORE[category] !== undefined ? CATEGORY_BASE_SCORE[category] : 55;
     const maxNum = maxNumberIn(q.question);
     const magnitudeBonus = Math.min(20, Math.log10(maxNum + 1) * 6);
-    const lengthBonus = Math.min(10, q.question.length / 40);
+    const lengthBonus = Math.min(16, q.question.length / 22);
     // Bônus extra para perguntas de conhecimento factual (ex: módulo de turismo):
     // perguntas sobre causas/motivos ou datas específicas tendem a exigir
     // conhecimento mais detalhado do que perguntas de localização simples.
     const reasoningBonus = /por que|o que causou|qual foi o motivo|o que motivou|por qual motivo|o que caracteriza/i.test(q.question) ? 8 : 0;
     const yearBonus = /\b(1[0-9]{3}|20[0-2][0-9])\b/.test(q.question) ? 5 : 0;
-    return base + magnitudeBonus + lengthBonus + reasoningBonus + yearBonus;
+    // Perguntas com orações explicativas antes da pergunta em si (ex: "O
+    // Templo X, famoso por Y e Z, fica em qual cidade?") tendem a exigir
+    // reconhecer mais informação — cada vírgula extra soma um pouco.
+    const commaCount = (q.question.match(/,/g) || []).length;
+    const clauseBonus = Math.min(10, commaCount * 2.5);
+    return base + magnitudeBonus + lengthBonus + reasoningBonus + yearBonus + clauseBonus;
   }
 
   const BLOCK_SIZE = 10;  // perguntas por bloco/rodada
@@ -7163,9 +7190,9 @@
    * sempre o mais difícil. O jogador sempre começa no bloco 0 e pode ir
    * avançando bloco a bloco até o final do banco, se quiser.
    */
-  function buildDifficultyBlocks(pool) {
+  function buildDifficultyBlocks(pool, moduleKey) {
     const scored = (pool || []).map(function (q) {
-      return { q: q, score: difficultyScore(q) };
+      return { q: q, score: difficultyScore(q, moduleKey) };
     });
     scored.sort(function (a, b) { return a.score - b.score; });
     const sorted = scored.map(function (s) { return s.q; });
